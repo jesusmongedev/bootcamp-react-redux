@@ -1,60 +1,80 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import apiCall from "../api";
+import apiCall from '../api'
 
 const Meal = () => {
- const { id } = useParams();
- const [meal, setMeal] = useState({});
- const [isLoading, setIsLoading] = useState(false);
- const [error, setError] = useState({});
+  const { id } = useParams()
+  const [meal, setMeal] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState({})
 
+  const navigate = useNavigate()
 
- useEffect(() => {
-  const fetchData = async () => {
-   try {
-    setIsLoading(true);
-    setError({});
-    setMeal({});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        setError({})
+        setMeal({})
 
-    const response = await apiCall(`/lookup.php?i=${id}`);
-    setMeal(response?.meals?.[0]);
-   } catch (error) {
-    setError(error);
-   } finally {
-    setIsLoading(false);
-   }
+        const response = await apiCall(`/lookup.php?i=${id}`)
+        setMeal(response?.meals?.[0])
+      } catch (error) {
+        setError(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  };
+    fetchData()
+  }, [id])
 
-  fetchData();
- }, [id]);
+  const backToHomePage = () => {
+    navigate('/')
+  }
 
- if (isLoading) {
-  return <div>Cargando...</div>;
- }
+  if (isLoading) {
+    return <div>Cargando...</div>
+  }
 
- if (Object.keys(error)?.length) {
-  return <h6>Ha ocurrido un error</h6>;
- }
- 
- return (
-  <div className="p-2">
-   <h2 className="text-4xl font-lato font-bold">Recetario</h2>
-   {Object.keys(meal)?.length ? (
-    <div className="flex py-8 px-4">
-     <div className="w-1/4 flex flex-col items-start mb-2">
-      <label className="font-lato font-bold text-xl">{meal.strMeal}</label>
-      <img src={meal?.strMealThumb} alt={meal?.strMeal} className="w-80 max-w-6xl" />
-     </div>
-     <div className="w-3/4 flex flex-col items-start p-4">
-      <label className="text-lg font-lato">Instrucciones</label>
-      <p className="text-left font-lato">{meal?.strInstructions}</p>
-     </div>
+  if (Object.keys(error)?.length) {
+    return <h6>Ha ocurrido un error</h6>
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-3xl md:text-4xl  my-4 font-lato font-bold">
+        Recetario
+      </h2>
+      {Object.keys(meal)?.length ? (
+        <div className="flex flex-col gap-4 pb-8 lg:flex-row lg:items-center lg:gap-8">
+          <div className=" flex flex-col items-center ">
+            <label className="font-lato font-bold text-xl mb-4">
+              {meal.strMeal}
+            </label>
+            <img
+              src={meal?.strMealThumb}
+              alt={meal?.strMeal}
+              className="sm:max-w-sm rounded-md"
+            />
+          </div>
+          <div className="pb-4">
+            <label className="text-lg font-lato font-semibold">
+              Instrucciones:
+            </label>
+            <p className="font-lato">{meal?.strInstructions}</p>
+          </div>
+        </div>
+      ) : undefined}
+      <button
+        className="mb-8 self-center bg-blue-600 cursor-pointer p-2 rounded-md font-bold text-white  hover:bg-blue-700 md:self-end"
+        onClick={backToHomePage}
+      >
+        Return to Home
+      </button>
     </div>
-   ) : undefined}
-  </div>
- );
-};
+  )
+}
 
-export default Meal;
+export default Meal

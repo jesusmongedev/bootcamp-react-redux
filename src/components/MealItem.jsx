@@ -1,10 +1,17 @@
 const MealItem = ({ strMealThumb, strMeal, onClick, idMeal }) => {
- return (
-  <div className="mx-2 my-4 w-40 h-52 flex flex-col items-start text-ellipsis overflow-hidden">
-   <img src={strMealThumb} alt={strMeal} className="w-40 cursor-pointer" onClick={() => onClick(idMeal)} />
-   <p className="font-lato">{strMeal}</p>
-  </div>
- );
-};
+  return (
+    <div className="flex flex-col ">
+      <img
+        src={strMealThumb}
+        alt={strMeal}
+        className=" cursor-pointer rounded-md"
+        onClick={() => onClick(idMeal)}
+      />
+      <p className="mt-2 font-bold text-gray-700 text-left w-11/12 font-lato text-ellipsis overflow-hidden whitespace-nowrap">
+        {strMeal}
+      </p>
+    </div>
+  )
+}
 
-export default MealItem;
+export default MealItem

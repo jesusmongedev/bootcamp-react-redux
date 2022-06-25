@@ -1,13 +1,14 @@
-import Routes from './routes';
+import Routes from './routes'
 
-import './App.css';
+import './App.css'
+import Layout from './components/Layout'
 
 function App() {
   return (
-    <div className="App">
+    <Layout>
       <Routes />
-    </div>
+    </Layout>
   )
 }
 
-export default App;
+export default App
