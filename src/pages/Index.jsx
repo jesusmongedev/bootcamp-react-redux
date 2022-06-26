@@ -19,7 +19,7 @@ const Index = () => {
 
   const handleSearchClick = (e) => {
     e.preventDefault()
-    dispath(addSearchItem(searchText))
+    dispath(addSearchItem('hol'))
     dispath(fetchRecipes(searchText))
   }
 

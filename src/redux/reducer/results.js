@@ -15,7 +15,7 @@ const initialState = {
 const resultsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_RECIPES_STARTED:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true, data: [] }
     case FETCH_RECIPES_COMPLETED:
       return { ...state, isLoading: false, data: action.payload }
     case FETCH_RECIPES_ERROR:

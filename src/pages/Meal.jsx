@@ -1,52 +1,40 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { fethMealDetail } from '../redux/actions/detail'
 
-import apiCall from '../api'
 import BasicHeading from '../components/Common/BasicHeading'
 import LoadingSpinner from '../components/Common/LoadingSpinner'
 
 const Meal = () => {
   const { id } = useParams()
-  const [meal, setMeal] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState({})
+  const meal = useSelector((state) => state.detail.data)
+  const isLoading = useSelector((state) => state.detail.isLoading)
+  const error = useSelector((state) => state.detail.error)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
-        setError({})
-        setMeal({})
-
-        const response = await apiCall(`/lookup.php?i=${id}`)
-        setMeal(response?.meals?.[0])
-      } catch (error) {
-        setError(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
+    dispatch(fethMealDetail(id))
   }, [id])
 
   const backToHomePage = () => {
     navigate('/')
   }
 
-  if (isLoading) {
-    return <LoadingSpinner />
+  {
+    isLoading && <LoadingSpinner />
   }
 
-  if (Object.keys(error)?.length) {
-    return <h6 className="text-red-400 font-bold">Ha ocurrido un error</h6>
+  {
+    error && <h6 className="text-red-400 font-bold">Ha ocurrido un error</h6>
   }
 
   return (
     <div className="flex flex-col items-center justify-center">
       <BasicHeading title="Recetario" />
+
       {Object.keys(meal)?.length ? (
         <div className="flex flex-col gap-4 pb-8 lg:flex-row lg:items-center lg:gap-8">
           <div className=" flex flex-col items-center ">
