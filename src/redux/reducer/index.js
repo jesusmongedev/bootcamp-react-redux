@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import reducers from './results'
+import results from './results'
 
 export default combineReducers({
-  reducers,
+  results,
 })

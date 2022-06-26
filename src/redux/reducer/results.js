@@ -8,7 +8,7 @@ import {
 const initialState = {
   isLoading: false,
   data: [],
-  error: {},
+  error: false,
   searchItems: [],
 }
 
@@ -17,11 +17,10 @@ const resultsReducer = (state = initialState, action) => {
     case FETCH_RECIPES_STARTED:
       return { ...state, isLoading: true }
     case FETCH_RECIPES_COMPLETED:
-      return { ...state, data: action.payload }
+      return { ...state, isLoading: false, data: action.payload }
     case FETCH_RECIPES_ERROR:
-      return { ...state, error: action.error }
+      return { ...state, isLoading: false, error: action.error }
     case ADD_SEARCH_ITEM:
-      console.log('state', state)
       return { ...state, searchItems: [...state.searchItems, action.payload] }
     default:
       return state

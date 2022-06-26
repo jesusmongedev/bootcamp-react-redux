@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import apiCall from '../api'
+import BasicHeading from '../components/Common/BasicHeading'
+import LoadingSpinner from '../components/Common/LoadingSpinner'
 
 const Meal = () => {
   const { id } = useParams()
@@ -35,18 +37,16 @@ const Meal = () => {
   }
 
   if (isLoading) {
-    return <div>Cargando...</div>
+    return <LoadingSpinner />
   }
 
   if (Object.keys(error)?.length) {
-    return <h6>Ha ocurrido un error</h6>
+    return <h6 className="text-red-400 font-bold">Ha ocurrido un error</h6>
   }
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h2 className="text-3xl md:text-4xl  my-4 font-lato font-bold">
-        Recetario
-      </h2>
+      <BasicHeading title="Recetario" />
       {Object.keys(meal)?.length ? (
         <div className="flex flex-col gap-4 pb-8 lg:flex-row lg:items-center lg:gap-8">
           <div className=" flex flex-col items-center ">
