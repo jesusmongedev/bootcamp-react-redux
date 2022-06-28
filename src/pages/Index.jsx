@@ -1,30 +1,29 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { addSearchItem, fetchRecipes } from '../redux/actions/results'
 import MealItem from '../components/MealItem'
 import BasicHeading from '../components/Common/BasicHeading'
 import SearchMealsForm from '../components/SearchMealsForm'
 import LoadingSpinner from '../components/Common/LoadingSpinner'
 
+import { addSearchItem, fetchRecipes } from '../redux/actions/results'
+import {
+  isLoadingResults,
+  resultsData,
+  resultsError,
+} from '../redux/selectors/results'
+
 const Index = () => {
   const [searchText, setSearchText] = useState('')
-  const searchResults = useSelector((state) => state.results.data)
-  const isLoading = useSelector((state) => state.results.isLoading)
-  const error = useSelector((state) => state.results.error)
+  const isLoading = useSelector(isLoadingResults)
+  const searchResults = useSelector(resultsData)
+  const error = useSelector(resultsError)
 
-  const navigate = useNavigate()
   const dispath = useDispatch()
 
   const handleSearchClick = (e) => {
     e.preventDefault()
-    dispath(addSearchItem('hol'))
+    dispath(addSearchItem(searchText))
     dispath(fetchRecipes(searchText))
-  }
-
-  const handleMealClick = (id) => {
-    navigate(`/meal/${id}`)
   }
 
   return (
@@ -42,7 +41,7 @@ const Index = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-6 mt-8 gap-4 md:gap-8">
         {!isLoading &&
           searchResults?.map((meal, index) => (
-            <MealItem key={index} {...meal} onClick={handleMealClick} />
+            <MealItem key={index} {...meal} />
           ))}
       </div>
     </div>

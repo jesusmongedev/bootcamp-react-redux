@@ -15,3 +15,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* button */
+.primary-button {
+  @apply bg-blue-600 cursor-pointer p-2 rounded-md font-bold text-white  hover:bg-white hover:text-black hover:outline hover:outline-blue-600;
+}
+.secondary-button {
+  @apply outline outline-blue-600 cursor-pointer p-2 rounded-md font-bold  hover:bg-blue-600 hover:text-white;
+}

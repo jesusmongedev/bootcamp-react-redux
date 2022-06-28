@@ -19,7 +19,7 @@ const fetchDetailError = (error) => ({
 })
 
 // Action creator
-export const fethMealDetail = (mealId) => async (dispath) => {
+export const fetchMealDetail = (mealId) => async (dispath) => {
   try {
     dispath(fetchDetailStarted())
     const res = await apiCall(`/lookup.php?i=${mealId}`)
